@@ -6,6 +6,7 @@ locals {
   user_data      = file("./cloud-init.yaml")
   instance_names = ["frontend", "backend", "database"]
   availability_zones = [ "eu-west-3a", "eu-west-3b", "eu-west-3c"]
+  private_ips = [ "10.0.0.10", "10.0.0.20", "10.0.0.30"]
   default_volume_size = 20
 }
 
@@ -35,6 +36,7 @@ resource "openstack_compute_instance_v2" "instances" {
   availability_zone = local.availability_zones[count.index]
   network {
     name = openstack_networking_network_v2.internal-network.name
+    fixed_ip_v4 = local.private_ips[count.index]
   }
   security_groups = [
     openstack_networking_secgroup_v2.ssh.name,
