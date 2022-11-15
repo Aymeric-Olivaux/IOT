@@ -1,0 +1,13 @@
+# Cloud config
+
+disable_root: false
+ssh_authorized_keys:
+  - ${openstack_compute_keypair_v2.kp_alexis_boissiere.public_key}
+  - ${openstack_compute_keypair_v2.kp_milann_guitton.public_key}
+  - ${openstack_compute_keypair_v2.kp_clement_dailly.public_key}
+  - ${openstack_compute_keypair_v2.kp_benoit_gornet.public_key}
+  - ${openstack_compute_keypair_v2.kp_aymeric_olivaux.public_key}
+  - ${openstack_compute_keypair_v2.kp_liann_pelhate.public_key}
+
+package_update: true
+package_upgrade: true
