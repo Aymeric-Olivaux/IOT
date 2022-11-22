@@ -10,14 +10,12 @@ ENV PORT $PORT
 EXPOSE $PORT
 
 # Create app directory
-WORKDIR /run
+WORKDIR /home/node
 
-RUN npm install --global expo-cli sharp-cli
+# RUN npm install --global expo-cli
 
 COPY package*.json ./
 
-COPY . .
-
-RUN yarn
+RUN ["yarn", "install"]
 
 CMD [ "yarn", "web" ]
