@@ -1,0 +1,14 @@
+version: "3.8" # use version 3.8 syntax
+services: # define our service(s)
+    app-service: # name of the service
+        platform: linux/amd64
+        container_name: iotcontainer # Container name
+        build:
+            context: ./ # Location of our Dockerfile
+            args:
+                - NODE_ENV=production
+        ports:
+            - "19006:19006"
+        environment:
+            - NODE_ENV=production
+        tty: true
