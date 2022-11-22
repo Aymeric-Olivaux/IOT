@@ -1,21 +1,21 @@
-# pull official base image
-FROM node:13.12.0-alpine
+FROM node:16-alpine
 
-# set working directory
-WORKDIR /app
+# Set production environment
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Default port for node
+ARG PORT=19006
+ENV PORT $PORT
+EXPOSE $PORT
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+# Create app directory
+WORKDIR /run
 
-# add app
-COPY . ./
+RUN npm install --global expo-cli
 
-# start app
-CMD ["npm", "start"]
+COPY . .
 
+RUN yarn
+
+CMD [ "yarn", "web" ]
