@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  front:
+    container_name: iot-frontend
+    volumes:
+      - "./frontend:/home/node"
+    ports:
+      - "80:19006"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - back
+      - database
+
+  back:
+    container_name: iot-backend
+    volumes:
+      - "./backend:/home/app"
+    ports:
+      - "8000:80"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    expose:
+      - 8000
+  
+  database:
+    container_name: iot-database
+    image: "postgres"
+    environment:
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "tryhard"
+      POSTGRES_DB: "iot"
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432

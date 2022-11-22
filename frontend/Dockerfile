@@ -12,7 +12,9 @@ EXPOSE $PORT
 # Create app directory
 WORKDIR /run
 
-RUN npm install --global expo-cli
+RUN npm install --global expo-cli sharp-cli
+
+COPY package*.json ./
 
 COPY . .
 
