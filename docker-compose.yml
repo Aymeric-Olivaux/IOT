@@ -31,9 +31,8 @@ services:
     hostname: "iot-database"
     restart: always
     environment:
-      - POSTGRES_USER=tryhard
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=iot
     volumes:
       - ./database:/docker-entrypoint-initdb.d/
     ports:
