@@ -27,11 +27,15 @@ services:
   
   database:
     container_name: iot-database
-    image: "postgres"
+    image: "postgres:14.1-alpine"
+    hostname: "iot-database"
+    restart: always
     environment:
-      POSTGRES_PASSWORD: "password"
-      POSTGRES_USER: "tryhard"
-      POSTGRES_DB: "iot"
+      - POSTGRES_USER=tryhard
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=iot
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
     expose:
