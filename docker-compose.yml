@@ -9,22 +9,22 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    depends_on:
-      - backend
-      - database
 
   backend:
     container_name: iot-backend
     volumes:
       - "./backend:/home/app"
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     build:
       context: ./backend
       dockerfile: Dockerfile
     expose:
       - 8000
-  
+    depends_on:
+      database:
+        condition: service_healthy
+
   database:
     container_name: iot-database
     image: "postgres:14.1-alpine"
@@ -39,3 +39,8 @@ services:
       - "5432:5432"
     expose:
       - 5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 1s
+      timeout: 5s
+      retries: 5
