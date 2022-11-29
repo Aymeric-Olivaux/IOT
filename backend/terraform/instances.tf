@@ -20,7 +20,7 @@ data "openstack_images_image_v2" "ubuntu-22-04" {
 # ---------------------------------------------------------------- Flavors --- #
 
 data "openstack_compute_flavor_v2" "instance-flavor" {
-  name = "m1.xlarge"
+  name = "c4.large"
 }
 
 
