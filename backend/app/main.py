@@ -1,6 +1,6 @@
 from typing import Union
 
-from fastapi import Depends, FastAPI, Body
+from fastapi import Depends, FastAPI, Body, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
@@ -36,4 +36,6 @@ def read_root():
 @app.post("/login", response_model=schemas.User)
 def login(user: schemas.User, db: Session = Depends(get_db)):
     db_user = get_user(db, user.email, user.password)
+    if (db_user == None):
+        raise HTTPException(status_code=404, detail="User not found")
     return db_user

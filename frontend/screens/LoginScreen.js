@@ -7,8 +7,24 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const signIn = () => {
-        navigation.navigate("Home");
+    async function signIn() {
+        const endpoint = "http://localhost:8000/login";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+        console.log(response);
+        if (response.status === 200) {        
+            navigation.navigate("Home");
+        } else {
+            alert("Invalid credentials");
+        }
     };
 
     return (
