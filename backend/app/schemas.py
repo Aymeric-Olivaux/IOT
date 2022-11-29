@@ -31,7 +31,6 @@ class Device(DeviceBase):
 
 class DataBase(BaseModel):
     device_id: int
-    collected_at: datetime.datetime
     decibels: int
 
 class DataCreate(DataBase):
@@ -40,7 +39,7 @@ class DataCreate(DataBase):
 class Data(DataBase):
     id: int | None
     device_id: int
-    collected_at: datetime.datetime
+    collected_at: datetime.datetime | None
     decibels: int
 
     class Config:

@@ -1,8 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
-
+import datetime
 from .database import Base
-
 
 class User(Base):
     __tablename__ = "users"
@@ -28,7 +27,7 @@ class Data(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     device_id = Column(Integer, ForeignKey("devices.id"))
-    collected_at = Column(DateTime)
+    collected_at = Column(DateTime, default=datetime.datetime.utcnow)
     decibels = Column(Integer)
 
     device = relationship("Device", back_populates="data")
