@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from . import models, schemas
-from .crud import get_user
+from .crud import get_user, get_user_by_email, create_user
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -39,3 +39,10 @@ def login(user: schemas.User, db: Session = Depends(get_db)):
     if (db_user == None):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.post("/register", response_model=schemas.User)
+def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = get_user_by_email(db, user.email)
+    if (db_user != None):
+        raise HTTPException(status_code=400, detail="User already exists")
+    return create_user(db=db, user=user)

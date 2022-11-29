@@ -13,7 +13,22 @@ const RegisterScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    const register = () => {
+    async function  register() {
+        const endpoint = "http://localhost:8000/register";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        })
+        if (response.status != 200) {
+            alert("User already exists");
+        }
+
         navigation.navigate("Login");
     };
 
