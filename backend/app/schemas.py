@@ -9,7 +9,7 @@ class UserCreate(UserBase):
     pass
 
 class User(UserBase):
-    id: int
+    id: int | None
     email: str
     password: str
 
@@ -23,7 +23,7 @@ class DeviceCreate(DeviceBase):
     pass
 
 class Device(DeviceBase):
-    id: int
+    id: int | None
     owner_id: int
 
     class Config:
@@ -38,7 +38,7 @@ class DataCreate(DataBase):
     pass
 
 class Data(DataBase):
-    id: int
+    id: int | None
     device_id: int
     collected_at: datetime.datetime
     decibels: int

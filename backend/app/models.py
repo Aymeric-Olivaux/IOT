@@ -11,12 +11,17 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
 
+    devices = relationship("Device", back_populates="owner")
+
 
 class Device(Base):
     __tablename__ = "devices"
 
     id = Column(Integer, primary_key=True, index=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
+
+    owner = relationship("User", back_populates="devices")
+    data = relationship("Data", back_populates="device")
 
 class Data(Base):
     __tablename__ = "data"
@@ -25,3 +30,5 @@ class Data(Base):
     device_id = Column(Integer, ForeignKey("devices.id"))
     collected_at = Column(DateTime)
     decibels = Column(Integer)
+
+    device = relationship("Device", back_populates="data")
