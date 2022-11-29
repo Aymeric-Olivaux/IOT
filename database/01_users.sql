@@ -6,4 +6,4 @@ CREATE TABLE users (
     password VARCHAR(256)
 );
 
-INSERT INTO users (email, password) VALUES ('admin@localhost', 'admin');
+INSERT INTO users (email, password) VALUES ('admin@localhost', 'admin'), ('user@localhost', 'user');
