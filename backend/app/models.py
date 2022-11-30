@@ -27,7 +27,7 @@ class Data(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     device_id = Column(Integer, ForeignKey("devices.id"))
-    collected_at = Column(DateTime, default=datetime.datetime.utcnow)
+    collected_at = Column(DateTime, default=datetime.datetime.now())
     decibels = Column(Integer)
 
     device = relationship("Device", back_populates="data")
