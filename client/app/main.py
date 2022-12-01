@@ -1,20 +1,23 @@
-from gpiozero import LED          
-#imports LED functions from gpiozero library
-from gpiozero import Button        
-#imports Button functions from gpiozero library
-print("Hello")
-led = LED(4)
-#declare the GPIO pin 4 for LED output and store it in led variable
-button = Button(17)
-#declare the GPIO pin 17 for Button output and store it in button variable
+#!/usr/bin/env python3
 
-while True:
-#initiated an infinite while loop
-        button.wait_for_press()
-#use the built-in function of the button to wait till press
-        led.on()
-#turn on the led
-        button.wait_for_release()
-#use the built-in function of button to wait till release
-        led.off()
-#turn off the led
+import numpy as np
+import sounddevice as sd
+
+duration = 10 #in seconds
+sd.default.samplerate = 44100
+sd.default.device = 1
+
+def audio_callback(indata, frames, time, status):
+   volume_norm = np.linalg.norm(indata) * 10
+   print("|" * int(volume_norm))
+
+
+stream = sd.InputStream(callback=audio_callback)
+with stream:
+   sd.sleep(duration * 1000)
+
+#import subprocess
+#import sys
+
+#result = subprocess.run(['soundmeter', '-c', '-s', '3', '|', 'grep', 'avg', '|', 'awk', '\'{print $2}\''], capture_output=True)
+#result = subprocess.run(['soundmeter -c -s 3 | grep avg | awk \'{print $2}\''], capture_output=True)

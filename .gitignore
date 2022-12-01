@@ -32,6 +32,9 @@ node_modules/
 
 # production
 /build
+client/odas/
+client/seeed-voicecard/
+
 
 # misc
 .DS_Store
