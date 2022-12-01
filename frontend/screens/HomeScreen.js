@@ -5,17 +5,35 @@ import { Picker } from "@react-native-picker/picker";
 import { Button, Text } from "react-native-elements";
 
 const linedata = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
-            data: [20, 45, 28, 80, 99, 43],
+            data: [20, 45, 28, 80, 99, 43, 50],
             strokeWidth: 2, // optional
         },
     ],
 };
 
+
 const HomeScreen = ({ navigation }) => {
     const [selectedDB, setSelectedDB] = useState();
+    const [chartData, setchartData] = useState(linedata);
+
+    async function getTime(time) {
+        const endpoint = "http://localhost:8000/data/1/" + time;
+        const response = await fetch (endpoint).then(response => response.json());
+
+        setchartData({
+            labels: response.time,
+            datasets: [
+                {
+                    data: response.decibels,
+                    strokeWidth: 2, // optional
+                },
+            ],
+        });
+    }
+
     const decibel = [];
     for (let i = 100; i >= 30; i--) {
         decibel.push(i);
@@ -29,10 +47,10 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View>
             <LineChart
-                data={linedata}
+                data={chartData}
                 width={Dimensions.get("window").width} // from react-native
                 height={220}
-                yAxisLabel={"$"}
+                yAxisSuffix={" dB"}
                 chartConfig={{
                     backgroundColor: "#e84e48",
                     backgroundGradientFrom: "#e84e48",
@@ -54,26 +72,31 @@ const HomeScreen = ({ navigation }) => {
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#e84e48" }}
                     title="Minute"
+                    onPress={() => getTime("minute")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#e84e48" }}
                     title="Hour"
+                    onPress={() => getTime("hour")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#e84e48" }}
                     title="Day"
+                    onPress={() => getTime("day")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#e84e48" }}
                     title="Week"
+                    onPress={() => getTime("week")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#e84e48" }}
                     title="Month"
+                    onPress={() => getTime("month")}
                 />
             </View>
 
