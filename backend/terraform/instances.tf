@@ -38,6 +38,9 @@ resource "openstack_compute_instance_v2" "instance" {
   }
   security_groups = [
     openstack_networking_secgroup_v2.ssh.name,
+    openstack_networking_secgroup_v2.http.name,
+    openstack_networking_secgroup_v2.https.name,
+    openstack_networking_secgroup_v2.api.name,
     data.openstack_networking_secgroup_v2.default.name
   ]
 
