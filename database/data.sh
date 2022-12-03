@@ -4,10 +4,8 @@ MAX=110
 MIN=40
 
 while true; do
-
-
     VALUE=$(($MIN + $RANDOM % $MAX))
-    NUMBER=10
+    NUMBER=$((6 + $RANDOM % 17))
     while [ $NUMBER -gt 0 ]; do
         NUMBER=$((NUMBER - 1))
         DELTA=$((-10 + $RANDOM % 10))
