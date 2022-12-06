@@ -14,14 +14,15 @@ const linedata = {
     ],
 };
 
-
 const HomeScreen = ({ navigation }) => {
     const [selectedDB, setSelectedDB] = useState();
     const [chartData, setchartData] = useState(linedata);
 
     async function getTime(time) {
         const endpoint = "http://localhost:8000/data/1/" + time;
-        const response = await fetch (endpoint).then(response => response.json());
+        const response = await fetch(endpoint).then((response) =>
+            response.json()
+        );
 
         setchartData({
             labels: response.time,

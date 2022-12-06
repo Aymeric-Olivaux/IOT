@@ -13,7 +13,7 @@ const RegisterScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    async function  register() {
+    async function register() {
         const endpoint = "http://localhost:8000/register";
         const response = await fetch(endpoint, {
             method: "POST",
@@ -24,13 +24,13 @@ const RegisterScreen = ({ navigation }) => {
                 email: email,
                 password: password,
             }),
-        })
+        });
         if (response.status != 200) {
             alert("User already exists");
         }
 
         navigation.navigate("Login");
-    };
+    }
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>

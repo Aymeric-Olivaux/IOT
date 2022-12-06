@@ -20,12 +20,12 @@ const LoginScreen = ({ navigation }) => {
             }),
         });
         console.log(response);
-        if (response.status === 200) {        
+        if (response.status === 200) {
             navigation.navigate("Home");
         } else {
             alert("Invalid credentials");
         }
-    };
+    }
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>

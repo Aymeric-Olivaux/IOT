@@ -16,4 +16,4 @@ COPY package*.json ./
 
 RUN ["npm", "install"]
 
-CMD [ "yarn", "web" ]
+CMD [ "npm", "run" , "web" ]
