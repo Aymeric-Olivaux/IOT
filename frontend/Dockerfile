@@ -14,6 +14,8 @@ WORKDIR /home/node
 
 COPY package*.json ./
 
+RUN ["npm", "--unsafe-perm", "--allow-root", "install", "--global", "expo-cli"]
+
 RUN ["npm", "install"]
 
-CMD [ "npm", "run" , "web" ]
+CMD [ "expo", "start" , "--web" ]
