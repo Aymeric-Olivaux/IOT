@@ -31,3 +31,15 @@ def fetch_data_minute(db: Session, device_id: int):
 def fetch_data_hour(db: Session, device_id: int):
     last_hour = datetime.datetime.now() - datetime.timedelta(hours=1)
     return db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_hour).all()
+
+def fetch_data_day(db: Session, device_id: int):
+    last_day = datetime.datetime.now() - datetime.timedelta(days=1)
+    return db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_day).all()
+
+def fetch_data_week(db: Session, device_id: int):
+    last_week = datetime.datetime.now() - datetime.timedelta(weeks=1)
+    return db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_week).all()
+
+def fetch_data_month(db: Session, device_id: int):
+    last_month = datetime.datetime.now() - datetime.timedelta(days=30)
+    return db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_month).all()
