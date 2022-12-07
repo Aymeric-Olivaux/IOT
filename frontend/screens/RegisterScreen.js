@@ -27,9 +27,10 @@ const RegisterScreen = ({ navigation }) => {
         });
         if (response.status != 200) {
             alert("User already exists");
+        } else {
+            alert("User created");
+            navigation.navigate("Login");
         }
-
-        navigation.navigate("Login");
     }
 
     return (
@@ -64,7 +65,7 @@ const RegisterScreen = ({ navigation }) => {
                 raised
                 title="Register"
                 onPress={register}
-                buttonStyle={{ backgroundColor: "#e84e48" }}
+                buttonStyle={{ backgroundColor: "#93C157" }}
             />
             <View style={{ height: 100 }} />
         </KeyboardAvoidingView>

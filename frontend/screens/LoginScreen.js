@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
             <StatusBar style="light" />
             <Image
                 source={{
-                    uri: "https://i0.wp.com/filecr.com/wp-content/uploads/2021/09/sound-meter-logo.png",
+                    uri: "https://res.cloudinary.com/dcqahqe89/image/upload/v1670405662/logo_zvgtra.png",
                 }}
                 style={{ width: 200, height: 200 }}
             />
@@ -56,15 +56,15 @@ const LoginScreen = ({ navigation }) => {
                 title={"Login"}
                 onPress={signIn}
                 containerStyle={styles.button}
-                buttonStyle={{ backgroundColor: "#e84e48" }}
+                buttonStyle={{ backgroundColor: "#93C157" }}
             />
             <Button
                 title={"Register"}
                 type="outline"
                 onPress={() => navigation.navigate("Register")}
                 containerStyle={styles.button}
-                titleStyle={{ color: "#e84e48" }}
-                buttonStyle={{ borderColor: "#e84e48" }}
+                titleStyle={{ color: "#93C157" }}
+                buttonStyle={{ borderColor: "#93C157" }}
             />
             <View style={{ height: 100 }} />
         </KeyboardAvoidingView>

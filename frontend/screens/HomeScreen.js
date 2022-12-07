@@ -53,9 +53,9 @@ const HomeScreen = ({ navigation }) => {
                 height={220}
                 yAxisSuffix={" dB"}
                 chartConfig={{
-                    backgroundColor: "#e84e48",
-                    backgroundGradientFrom: "#e84e48",
-                    backgroundGradientTo: "#f8b195",
+                    backgroundColor: "#93C157",
+                    backgroundGradientFrom: "#93C157",
+                    backgroundGradientTo: "#52ae6d",
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     style: {
@@ -71,31 +71,31 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.selections}>
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Minute"
                     onPress={() => getTime("minute")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Hour"
                     onPress={() => getTime("hour")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Day"
                     onPress={() => getTime("day")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Week"
                     onPress={() => getTime("week")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Month"
                     onPress={() => getTime("month")}
                 />
