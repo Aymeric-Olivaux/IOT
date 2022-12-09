@@ -74,9 +74,8 @@ def get_data_hour(device_id: int, db: Session = Depends(get_db)):
     prev = 0
     length = len(data)
 
-    # print all data timestamps
-    for d in data:
-        print(d.collected_at)
+    if (length == 0):
+        return {"decibels": decibels_data, "time": time_data}
     
     # Average the data for an interval of 5 minutes for the last hour
     for i in range(0, length, length // 12):
