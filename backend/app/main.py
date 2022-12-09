@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from . import models, schemas
-from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month
+from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month, fetch_threshold, update_threshold
 from datetime import datetime
 import logging
 
@@ -169,6 +169,6 @@ def get_config(device_id: int, db: Session = Depends(get_db)):
     return config
 
 @app.post("/config/{device_id}")
-def post_config(device_id: int, config: schemas.Config, db: Session = Depends(get_db)):
+def post_config(device_id: int, config: schemas.Threshold, db: Session = Depends(get_db)):
     update_threshold(db, device_id, config)
     return config
