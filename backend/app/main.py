@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from . import models, schemas
-from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour
+from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month
 from datetime import datetime
 import logging
 
@@ -67,7 +67,7 @@ def get_data_minute(device_id: int, db: Session = Depends(get_db)):
     return {"decibels": decibels_data, "time": time_data}
 
 @app.get("/data/{device_id}/hour")
-def get_data_minute(device_id: int, db: Session = Depends(get_db)):
+def get_data_hour(device_id: int, db: Session = Depends(get_db)):
     data =  fetch_data_hour(db, device_id)
     decibels_data = []
     time_data = []
@@ -94,8 +94,8 @@ def get_data_minute(device_id: int, db: Session = Depends(get_db)):
     return {"decibels": decibels_data, "time": time_data}
 
 @app.get("/data/{device_id}/day")
-def get_data_minute(device_id: int, db: Session = Depends(get_db)):
-    data =  fetch_data_hour(db, device_id)
+def get_data_day(device_id: int, db: Session = Depends(get_db)):
+    data =  fetch_data_day(db, device_id)
     decibels_data = []
     time_data = []
     prev = 0
@@ -117,8 +117,8 @@ def get_data_minute(device_id: int, db: Session = Depends(get_db)):
     return {"decibels": decibels_data, "time": time_data}
 
 @app.get("/data/{device_id}/week")
-def get_data_minute(device_id: int, db: Session = Depends(get_db)):
-    data =  fetch_data_hour(db, device_id)
+def get_data_week(device_id: int, db: Session = Depends(get_db)):
+    data =  fetch_data_week(db, device_id)
     decibels_data = []
     time_data = []
     prev = 0
@@ -141,8 +141,8 @@ def get_data_minute(device_id: int, db: Session = Depends(get_db)):
     return {"decibels": decibels_data, "time": time_data}
 
 @app.get("/data/{device_id}/month")
-def get_data_minute(device_id: int, db: Session = Depends(get_db)):
-    data =  fetch_data_hour(db, device_id)
+def get_data_month(device_id: int, db: Session = Depends(get_db)):
+    data =  fetch_data_month(db, device_id)
     decibels_data = []
     time_data = []
     prev = 0
