@@ -14,7 +14,7 @@ const RegisterScreen = ({ navigation }) => {
     }, [navigation]);
 
     async function register() {
-        const endpoint = "http://localhost:8000/register";
+        const endpoint = "https://backend.ambizen.tryhard.fr/register";
         const response = await fetch(endpoint, {
             method: "POST",
             headers: {

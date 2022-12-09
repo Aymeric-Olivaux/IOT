@@ -8,7 +8,7 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
 
     async function signIn() {
-        const endpoint = "http://localhost:8000/login";
+        const endpoint = "https://backend.ambizen.tryhard.fr/login";
         const response = await fetch(endpoint, {
             method: "POST",
             headers: {
