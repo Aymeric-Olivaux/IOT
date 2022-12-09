@@ -19,7 +19,7 @@ const HomeScreen = ({ navigation }) => {
     const [chartData, setchartData] = useState(linedata);
 
     async function getTime(time) {
-        const endpoint = "http://localhost:8000/data/1/" + time;
+        const endpoint = "https://backend.ambizen.tryhard.fr/data/1/" + time;
         const response = await fetch(endpoint).then((response) =>
             response.json()
         );
