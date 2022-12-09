@@ -14,10 +14,6 @@ const linedata = {
     ],
 };
 
-const defaultDB = await fetch(
-    "https://backend.ambizen.tryhard.fr/config/1"
-).then((response) => response.json()).decibel;
-
 const HomeScreen = ({ navigation }) => {
     const [selectedDB, setSelectedDB] = useState(defaultDB);
     const [chartData, setchartData] = useState(linedata);
@@ -38,6 +34,16 @@ const HomeScreen = ({ navigation }) => {
             ],
         });
     }
+
+    async function getDecibel() {
+        const endpoint = "https://backend.ambizen.tryhard.fr/config/1";
+        const response = await fetch(endpoint).then((response) =>
+            response.json()
+        );
+        setSelectedDB(response.decibel);
+    }
+
+    getDecibel();
 
     async function sendDecibel(value) {
         const endpoint = "https://backend.ambizen.tryhard.fr/config/1";
