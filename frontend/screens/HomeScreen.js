@@ -14,8 +14,12 @@ const linedata = {
     ],
 };
 
+const defaultDB = await fetch(
+    "https://backend.ambizen.tryhard.fr/config/1"
+).then((response) => response.json()).decibel;
+
 const HomeScreen = ({ navigation }) => {
-    const [selectedDB, setSelectedDB] = useState();
+    const [selectedDB, setSelectedDB] = useState(defaultDB);
     const [chartData, setchartData] = useState(linedata);
 
     async function getTime(time) {
@@ -33,6 +37,23 @@ const HomeScreen = ({ navigation }) => {
                 },
             ],
         });
+    }
+
+    async function sendDecibel(value) {
+        const endpoint = "https://backend.ambizen.tryhard.fr/config/1";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                decibel: value,
+            }),
+        });
+        console.log(response);
+        if (response.status !== 200) {
+            alert("Error while sending decibel");
+        }
     }
 
     const decibel = [];
@@ -108,9 +129,10 @@ const HomeScreen = ({ navigation }) => {
 
             <Picker
                 selectedValue={selectedDB}
-                onValueChange={(itemValue, itemIndex) =>
-                    setSelectedDB(itemValue)
-                }
+                onValueChange={(itemValue, itemIndex) => {
+                    setSelectedDB(itemValue);
+                    sendDecibel(itemValue);
+                }}
                 style={styles.picker}
             >
                 {decibel.map((db, i) => (
