@@ -159,6 +159,6 @@ def get_data_month(device_id: int, db: Session = Depends(get_db)):
             avg /= (i - prev)
         decibels_data.append(avg)
         t = data[i].collected_at
-        time_data.append(t.strftime("%D"))
+        time_data.append(t.strftime("%d/%m"))
         prev = i
     return {"decibels": decibels_data, "time": time_data}
