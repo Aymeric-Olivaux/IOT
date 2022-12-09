@@ -44,3 +44,18 @@ class Data(DataBase):
 
     class Config:
         orm_mode = True
+
+class ThresholdBase(BaseModel):
+    device_id: int
+    threshold: int
+
+class ThresholdCreate(ThresholdBase):
+    pass
+
+class Threshold(ThresholdBase):
+    id: int | None
+    device_id: int
+    threshold: int
+
+    class Config:
+        orm_mode = True

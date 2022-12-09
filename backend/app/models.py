@@ -21,6 +21,7 @@ class Device(Base):
 
     owner = relationship("User", back_populates="devices")
     data = relationship("Data", back_populates="device")
+    threshold = relationship("Threshold", back_populates="device")
 
 class Data(Base):
     __tablename__ = "data"
@@ -31,3 +32,12 @@ class Data(Base):
     decibels = Column(Integer)
 
     device = relationship("Device", back_populates="data")
+
+class Threshold(Base):
+    __tablename__ = "thresholds"
+
+    id = Column(Integer, primary_key=True, index=True)
+    device_id = Column(Integer, ForeignKey("devices.id"))
+    threshold = Column(Integer)
+
+    device = relationship("Device", back_populates="threshold")

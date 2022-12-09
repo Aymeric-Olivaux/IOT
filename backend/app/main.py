@@ -162,3 +162,13 @@ def get_data_month(device_id: int, db: Session = Depends(get_db)):
         time_data.append(t.strftime("%d/%m"))
         prev = i
     return {"decibels": decibels_data, "time": time_data}
+
+@app.get("/config/{device_id}")
+def get_config(device_id: int, db: Session = Depends(get_db)):
+    config = fetch_threshold(db, device_id)
+    return config
+
+@app.post("/config/{device_id}")
+def post_config(device_id: int, config: schemas.Config, db: Session = Depends(get_db)):
+    update_threshold(db, device_id, config)
+    return config
