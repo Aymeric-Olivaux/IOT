@@ -73,9 +73,92 @@ def get_data_minute(device_id: int, db: Session = Depends(get_db)):
     time_data = []
     prev = 0
     length = len(data)
-    for i in range(50, length, 50):
-        decibels_data.append(sum(d.decibels for d in data[prev:i])/50)
-        t = data[prev + 25].collected_at
+
+    # print all data timestamps
+    for d in data:
+        print(d.collected_at)
+    
+    # Average the data for an interval of 5 minutes for the last hour
+    for i in range(0, length, length // 12):
+        avg = 0
+        for j in range(prev, i):
+            avg += data[j].decibels
+        if (i - prev == 0):
+            avg = data[i].decibels
+        else:
+            avg /= (i - prev)
+        decibels_data.append(avg)
+        t = data[i].collected_at
         time_data.append(t.strftime("%H:%M"))
+        prev = i
+    return {"decibels": decibels_data, "time": time_data}
+
+@app.get("/data/{device_id}/day")
+def get_data_minute(device_id: int, db: Session = Depends(get_db)):
+    data =  fetch_data_hour(db, device_id)
+    decibels_data = []
+    time_data = []
+    prev = 0
+    length = len(data)
+    
+    # Average the data for every hour for the last day
+    for i in range(0, length, length // 24):
+        avg = 0
+        for j in range(prev, i):
+            avg += data[j].decibels
+        if (i - prev == 0):
+            avg = data[i].decibels
+        else:
+            avg /= (i - prev)
+        decibels_data.append(avg)
+        t = data[i].collected_at
+        time_data.append(t.strftime("%H:%M"))
+        prev = i
+    return {"decibels": decibels_data, "time": time_data}
+
+@app.get("/data/{device_id}/week")
+def get_data_minute(device_id: int, db: Session = Depends(get_db)):
+    data =  fetch_data_hour(db, device_id)
+    decibels_data = []
+    time_data = []
+    prev = 0
+    length = len(data)
+    
+    # Average the data with 2 points for every day for the last week
+    for i in range(0, length, length // 14):
+        avg = 0
+        for j in range(prev, i):
+            avg += data[j].decibels
+        if (i - prev == 0):
+            avg = data[i].decibels
+        else:
+            avg /= (i - prev)
+        decibels_data.append(avg)
+        t = data[i].collected_at
+        # format the date to monday hour, tuesday hour, etc.
+        time_data.append(t.strftime("%a %H:%M"))
+        prev = i
+    return {"decibels": decibels_data, "time": time_data}
+
+@app.get("/data/{device_id}/month")
+def get_data_minute(device_id: int, db: Session = Depends(get_db)):
+    data =  fetch_data_hour(db, device_id)
+    decibels_data = []
+    time_data = []
+    prev = 0
+    length = len(data)
+    
+    # Average the data for every day for the last month
+    for i in range(0, length, length // 30):
+        avg = 0
+        for j in range(prev, i):
+            avg += data[j].decibels
+        if (i - prev == 0):
+            avg = data[i].decibels
+        else:
+            avg /= (i - prev)
+        decibels_data.append(avg)
+        t = data[i].collected_at
+        time_data.append(t.strftime("%D"))
         prev = i
     return {"decibels": decibels_data, "time": time_data}
