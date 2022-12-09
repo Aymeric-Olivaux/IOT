@@ -15,7 +15,7 @@ const linedata = {
 };
 
 const HomeScreen = ({ navigation }) => {
-    const [selectedDB, setSelectedDB] = useState(defaultDB);
+    const [selectedDB, setSelectedDB] = useState(0);
     const [chartData, setchartData] = useState(linedata);
 
     async function getTime(time) {
@@ -40,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
         const response = await fetch(endpoint).then((response) =>
             response.json()
         );
-        setSelectedDB(response.decibel);
+        setSelectedDB(response.threshold);
     }
 
     getDecibel();
@@ -53,11 +53,11 @@ const HomeScreen = ({ navigation }) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                decibel: value,
+                threshold: value,
             }),
         });
         console.log(response);
-        if (response.status !== 200) {
+        if (response.status != 200) {
             alert("Error while sending decibel");
         }
     }

@@ -168,6 +168,6 @@ def get_config(device_id: int, db: Session = Depends(get_db)):
     return config
 
 @app.post("/config/{device_id}")
-def post_config(device_id: int, config: schemas.Threshold, db: Session = Depends(get_db)):
-    update_threshold(db, device_id, config)
-    return config
+def post_config(device_id: int, config: schemas.ThresholdCreate, db: Session = Depends(get_db)):
+    res = update_threshold(db, device_id, config)
+    return res

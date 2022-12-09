@@ -46,7 +46,6 @@ class Data(DataBase):
         orm_mode = True
 
 class ThresholdBase(BaseModel):
-    device_id: int
     threshold: int
 
 class ThresholdCreate(ThresholdBase):
