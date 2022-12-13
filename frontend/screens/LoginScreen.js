@@ -7,16 +7,32 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const signIn = () => {
-        navigation.navigate("Home");
-    };
+    async function signIn() {
+        const endpoint = "https://backend.ambizen.tryhard.fr/login";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+        console.log(response);
+        if (response.status === 200) {
+            navigation.navigate("Home");
+        } else {
+            alert("Invalid credentials");
+        }
+    }
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <StatusBar style="light" />
             <Image
                 source={{
-                    uri: "https://i0.wp.com/filecr.com/wp-content/uploads/2021/09/sound-meter-logo.png",
+                    uri: "https://res.cloudinary.com/dcqahqe89/image/upload/v1670405662/logo_zvgtra.png",
                 }}
                 style={{ width: 200, height: 200 }}
             />
@@ -40,15 +56,15 @@ const LoginScreen = ({ navigation }) => {
                 title={"Login"}
                 onPress={signIn}
                 containerStyle={styles.button}
-                buttonStyle={{ backgroundColor: "#e84e48" }}
+                buttonStyle={{ backgroundColor: "#93C157" }}
             />
             <Button
                 title={"Register"}
                 type="outline"
                 onPress={() => navigation.navigate("Register")}
                 containerStyle={styles.button}
-                titleStyle={{ color: "#e84e48" }}
-                buttonStyle={{ borderColor: "#e84e48" }}
+                titleStyle={{ color: "#93C157" }}
+                buttonStyle={{ borderColor: "#93C157" }}
             />
             <View style={{ height: 100 }} />
         </KeyboardAvoidingView>
