@@ -13,9 +13,25 @@ const RegisterScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    const register = () => {
-        navigation.navigate("Login");
-    };
+    async function register() {
+        const endpoint = "https://backend.ambizen.tryhard.fr/register";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+        if (response.status != 200) {
+            alert("User already exists");
+        } else {
+            alert("User created");
+            navigation.navigate("Login");
+        }
+    }
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -49,7 +65,7 @@ const RegisterScreen = ({ navigation }) => {
                 raised
                 title="Register"
                 onPress={register}
-                buttonStyle={{ backgroundColor: "#e84e48" }}
+                buttonStyle={{ backgroundColor: "#93C157" }}
             />
             <View style={{ height: 100 }} />
         </KeyboardAvoidingView>

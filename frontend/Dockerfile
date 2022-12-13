@@ -12,10 +12,10 @@ EXPOSE $PORT
 # Create app directory
 WORKDIR /home/node
 
-# RUN npm install --global expo-cli
-
 COPY package*.json ./
 
-RUN ["yarn", "install"]
+RUN ["npm", "--unsafe-perm", "--allow-root", "install", "--global", "expo-cli"]
 
-CMD [ "yarn", "web" ]
+RUN ["npm", "install"]
+
+CMD [ "expo", "start" , "--web" ]

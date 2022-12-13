@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id serial PRIMARY KEY,
-    firstname VARCHAR(256),
-    lastname VARCHAR(256),
-    email VARCHAR(256),
+    email VARCHAR(256) UNIQUE,
     password VARCHAR(256)
 );
+
+INSERT INTO users (email, password) VALUES ('admin@localhost', 'admin'), ('user@localhost', 'user');

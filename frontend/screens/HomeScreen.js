@@ -1,23 +1,70 @@
 import { Dimensions, StyleSheet, View } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
 import { Button, Text } from "react-native-elements";
 
 const linedata = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
-            data: [20, 45, 28, 80, 99, 43],
+            data: [20, 45, 28, 80, 99, 43, 50],
             strokeWidth: 2, // optional
         },
     ],
 };
 
 const HomeScreen = ({ navigation }) => {
-    const [selectedDB, setSelectedDB] = useState();
+    const [selectedDB, setSelectedDB] = useState(0);
+    const [chartData, setchartData] = useState(linedata);
+    const [time, setTime] = useState("minute");
+
+    async function getTime() {
+        const endpoint = "https://backend.ambizen.tryhard.fr/data/1/" + time;
+        const response = await fetch(endpoint).then((response) =>
+            response.json()
+        );
+
+        setchartData({
+            labels: response.time,
+            datasets: [
+                {
+                    data: response.decibels,
+                    strokeWidth: 2, // optional
+                },
+            ],
+        });
+    }
+
+    async function getDecibel() {
+        const endpoint = "https://backend.ambizen.tryhard.fr/config/1";
+        const response = await fetch(endpoint).then((response) =>
+            response.json()
+        );
+        setSelectedDB(response.threshold);
+    }
+
+    getDecibel();
+
+    async function sendDecibel(value) {
+        const endpoint = "https://backend.ambizen.tryhard.fr/config/1";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                threshold: value,
+            }),
+        });
+        console.log(response);
+        if (response.status != 200) {
+            alert("Error while sending decibel");
+        }
+    }
+
     const decibel = [];
-    for (let i = 100; i >= 30; i--) {
+    for (let i = 150; i >= 30; i--) {
         decibel.push(i);
     }
 
@@ -26,54 +73,69 @@ const HomeScreen = ({ navigation }) => {
             headerBackTitle: "Logout",
         });
     }, [navigation]);
+
+    useEffect(() => {
+        getTime();
+        // set interval to get data every 5 seconds
+        const interval = setInterval(() => {
+            getTime();
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [time]);
+
     return (
         <View>
             <LineChart
-                data={linedata}
+                data={chartData}
                 width={Dimensions.get("window").width} // from react-native
                 height={220}
-                yAxisLabel={"$"}
+                yAxisSuffix={" dB"}
                 chartConfig={{
-                    backgroundColor: "#e84e48",
-                    backgroundGradientFrom: "#e84e48",
-                    backgroundGradientTo: "#f8b195",
+                    backgroundColor: "#93C157",
+                    backgroundGradientFrom: "#93C157",
+                    backgroundGradientTo: "#52ae6d",
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     style: {
-                        borderRadius: 16,
+                        borderRadius: 8,
                     },
                 }}
                 bezier
                 style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
+                    borderRadius: 8,
+                    margin: 10,
                 }}
             />
             <View style={styles.selections}>
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Minute"
+                    onPress={() => setTime("minute")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Hour"
+                    onPress={() => setTime("hour")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Day"
+                    onPress={() => setTime("day")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Week"
+                    onPress={() => setTime("week")}
                 />
                 <Button
                     style={styles.buttons}
-                    buttonStyle={{ backgroundColor: "#e84e48" }}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Month"
+                    onPress={() => setTime("month")}
                 />
             </View>
 
@@ -84,9 +146,10 @@ const HomeScreen = ({ navigation }) => {
 
             <Picker
                 selectedValue={selectedDB}
-                onValueChange={(itemValue, itemIndex) =>
-                    setSelectedDB(itemValue)
-                }
+                onValueChange={(itemValue, itemIndex) => {
+                    setSelectedDB(itemValue);
+                    sendDecibel(itemValue);
+                }}
                 style={styles.picker}
             >
                 {decibel.map((db, i) => (

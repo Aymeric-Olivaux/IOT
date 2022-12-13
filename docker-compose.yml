@@ -9,22 +9,20 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    depends_on:
-      - backend
-      - database
 
   backend:
     container_name: iot-backend
+    hostname: iot-backend
     volumes:
       - "./backend:/home/app"
     ports:
-      - "8000:80"
+      - "8000:8000"
     build:
       context: ./backend
       dockerfile: Dockerfile
-    expose:
-      - 8000
-  
+    depends_on:
+      - database
+
   database:
     container_name: iot-database
     image: "postgres:14.1-alpine"
@@ -39,3 +37,9 @@ services:
       - "5432:5432"
     expose:
       - 5432
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
