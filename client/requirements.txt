@@ -4,3 +4,14 @@ pycparser==2.21
 sounddevice==0.4.5
 pyaudio
 pvrespeakerdemo
+spidev
+pyusb==1.1.0
+pixel_ring
+gpiozero
+scipy
+soundfile
+pyloudnorm
+playsound
+pygobject
+simpleaudio
+wavio
