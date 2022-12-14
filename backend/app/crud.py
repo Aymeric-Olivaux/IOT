@@ -57,3 +57,7 @@ def update_threshold(db: Session, device_id: int, threshold: schemas.ThresholdCr
     db.commit()
     db.refresh(db_threshold)
     return db_threshold
+
+def fetch_health(db: Session, device_id: int):
+    last_thirty_seconds = datetime.datetime.now() - datetime.timedelta(seconds=30)
+    return db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_thirty_seconds).all()
