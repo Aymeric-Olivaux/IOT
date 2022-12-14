@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, View } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
 import { Button, Text } from "react-native-elements";
@@ -17,8 +17,9 @@ const linedata = {
 const HomeScreen = ({ navigation }) => {
     const [selectedDB, setSelectedDB] = useState(0);
     const [chartData, setchartData] = useState(linedata);
+    const [time, setTime] = useState("minute");
 
-    async function getTime(time) {
+    async function getTime() {
         const endpoint = "https://backend.ambizen.tryhard.fr/data/1/" + time;
         const response = await fetch(endpoint).then((response) =>
             response.json()
@@ -63,7 +64,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     const decibel = [];
-    for (let i = 100; i >= 30; i--) {
+    for (let i = 150; i >= 30; i--) {
         decibel.push(i);
     }
 
@@ -72,6 +73,16 @@ const HomeScreen = ({ navigation }) => {
             headerBackTitle: "Logout",
         });
     }, [navigation]);
+
+    useEffect(() => {
+        getTime();
+        // set interval to get data every 5 seconds
+        const interval = setInterval(() => {
+            getTime();
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [time]);
+
     return (
         <View>
             <LineChart
@@ -86,13 +97,13 @@ const HomeScreen = ({ navigation }) => {
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     style: {
-                        borderRadius: 16,
+                        borderRadius: 8,
                     },
                 }}
                 bezier
                 style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
+                    borderRadius: 8,
+                    margin: 10,
                 }}
             />
             <View style={styles.selections}>
@@ -100,31 +111,31 @@ const HomeScreen = ({ navigation }) => {
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Minute"
-                    onPress={() => getTime("minute")}
+                    onPress={() => setTime("minute")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Hour"
-                    onPress={() => getTime("hour")}
+                    onPress={() => setTime("hour")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Day"
-                    onPress={() => getTime("day")}
+                    onPress={() => setTime("day")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Week"
-                    onPress={() => getTime("week")}
+                    onPress={() => setTime("week")}
                 />
                 <Button
                     style={styles.buttons}
                     buttonStyle={{ backgroundColor: "#93C157" }}
                     title="Month"
-                    onPress={() => getTime("month")}
+                    onPress={() => setTime("month")}
                 />
             </View>
 
