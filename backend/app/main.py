@@ -171,3 +171,10 @@ def get_config(device_id: int, db: Session = Depends(get_db)):
 def post_config(device_id: int, config: schemas.ThresholdCreate, db: Session = Depends(get_db)):
     res = update_threshold(db, device_id, config)
     return res
+
+@app.get("/health/{device_id}")
+def get_health(device_id: int, db: Session = Depends(get_db)):
+    health = fetch_data_minute(db, device_id)
+    if (len(health) == 0):
+        raise HTTPException(status_code=400, detail="Device seems to be offline")
+    return {"status": "ok"}
