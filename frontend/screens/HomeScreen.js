@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, View } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
 import { Button, Text } from "react-native-elements";
@@ -17,24 +17,51 @@ const linedata = {
 const HomeScreen = ({ navigation }) => {
     const [selectedDB, setSelectedDB] = useState(0);
     const [chartData, setchartData] = useState(linedata);
+    const [currentScale, setCurrentScale] = useState('minute');
+const timerRef = useRef(null);
+
+const getData = async () => {
+    timerRef.current = setInterval(async () => {
+        console.log(currentScale);
+        if (currentScale == 'minute') {
+            await getTime(currentScale);
+        }
+    }, 5000);
+};
 
     async function getTime(time) {
+        doSomething(time);
+        console.log(currentScale, time);
         const endpoint = "https://backend.ambizen.tryhard.fr/data/1/" + time;
-        const response = await fetch(endpoint).then((response) =>
-            response.json()
-        );
-
+        const response = await fetch(endpoint);
+        const data = await response.json();
         setchartData({
-            labels: response.time,
+            labels: data.time,
             datasets: [
                 {
-                    data: response.decibels,
+                    data: data.decibels,
                     strokeWidth: 2, // optional
                 },
             ],
         });
     }
 
+    function doSomething(time) {
+        setCurrentScale(time)
+    }
+/*     setTimeout(async () => {
+        console.log(currentScale);
+        if (currentScale == 'minute') {
+            await getTime(currentScale);
+    }
+    }, 1000); */
+
+    React.useEffect(() => {
+        getData();
+        return () => {
+            clearInterval(timerRef.current);
+        };
+    }, []);
     async function getDecibel() {
         const endpoint = "https://backend.ambizen.tryhard.fr/config/1";
         const response = await fetch(endpoint).then((response) =>
