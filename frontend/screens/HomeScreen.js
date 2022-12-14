@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, View } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
-import { Button, Text } from "react-native-elements";
+import { Button, Text, Image } from "react-native-elements";
 
 const linedata = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -160,6 +160,58 @@ const HomeScreen = ({ navigation }) => {
                     />
                 ))}
             </Picker>
+            <View>
+                <View style={styles.health_container}>
+                    <Text h4 style={styles.title}>
+                        Backend status
+                    </Text>
+                    <View style={styles.health}>
+                        <Image
+                            source={{
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-api/health/badge.svg",
+                            }}
+                            style={{ width: 88, height: 20, margin: 5 }}
+                        />
+                        <Image
+                            source={{
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-api/uptimes/1h/badge.svg",
+                            }}
+                            style={{ width: 121, height: 20, margin: 5 }}
+                        />
+                        <Image
+                            source={{
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-api/uptimes/7d/badge.svg",
+                            }}
+                            style={{ width: 121, height: 20, margin: 5 }}
+                        />
+                    </View>
+                </View>
+                <View style={styles.health_container}>
+                    <Text h4 style={styles.title}>
+                        Ambizen status
+                    </Text>
+                    <View style={styles.health}>
+                        <Image
+                            source={{
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-device-1/health/badge.svg",
+                            }}
+                            style={{ width: 88, height: 20, margin: 5 }}
+                        />
+                        <Image
+                            source={{
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-device-1/uptimes/1h/badge.svg",
+                            }}
+                            style={{ width: 121, height: 20, margin: 5 }}
+                        />
+                        <Image
+                            source={{
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-device-1/uptimes/7d/badge.svg",
+                            }}
+                            style={{ width: 121, height: 20, margin: 5 }}
+                        />
+                    </View>
+                </View>
+            </View>
         </View>
     );
 };
@@ -183,5 +235,19 @@ const styles = StyleSheet.create({
         width: 150,
         alignSelf: "center",
         marginTop: 20,
+    },
+    health: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignSelf: "center",
+        marginTop: 20,
+    },
+    health_container: {
+        borderColor: "#93C157",
+        borderWidth: 2,
+        borderRadius: 8,
+        margin: 10,
+        width: "30%",
+        alignSelf: "center",
     },
 });
