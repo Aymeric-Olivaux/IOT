@@ -4,6 +4,8 @@ import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
 import { Button, Text, Image, Input } from "react-native-elements";
 
+const { width } = Dimensions.get("window");
+
 const linedata = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
@@ -186,19 +188,19 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.health}>
                         <Image
                             source={{
-                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-api/health/badge.svg",
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl---tryhard_iot---ambizen-api/health/badge.svg",
                             }}
                             style={{ width: 88, height: 20, margin: 5 }}
                         />
                         <Image
                             source={{
-                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-api/uptimes/1h/badge.svg",
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl---tryhard_iot---ambizen-api/uptimes/1h/badge.svg",
                             }}
                             style={{ width: 121, height: 20, margin: 5 }}
                         />
                         <Image
                             source={{
-                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-api/uptimes/7d/badge.svg",
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl---tryhard_iot---ambizen-api/uptimes/7d/badge.svg",
                             }}
                             style={{ width: 121, height: 20, margin: 5 }}
                         />
@@ -211,19 +213,19 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.health}>
                         <Image
                             source={{
-                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-device-1/health/badge.svg",
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl---tryhard_iot---ambizen-device-1/health/badge.svg",
                             }}
                             style={{ width: 88, height: 20, margin: 5 }}
                         />
                         <Image
                             source={{
-                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-device-1/uptimes/1h/badge.svg",
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl---tryhard_iot---ambizen-device-1/uptimes/1h/badge.svg",
                             }}
                             style={{ width: 121, height: 20, margin: 5 }}
                         />
                         <Image
                             source={{
-                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl_iot---ambizen-device-1/uptimes/7d/badge.svg",
+                                uri: "https://gatus.alexisboissiere.fr/api/v1/endpoints/sigl---tryhard_iot---ambizen-device-1/uptimes/7d/badge.svg",
                             }}
                             style={{ width: 121, height: 20, margin: 5 }}
                         />
@@ -232,6 +234,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <View style={styles.health}>
                 <Input
+                    style={styles.input}
                     placeholder="Email"
                     autofocus
                     type="email"
@@ -280,10 +283,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 8,
         margin: 10,
-        width: "30%",
+        width: width > 600 ? "30%" : "95%",
         alignSelf: "center",
     },
     button_sendreport: {
         width: 150,
+    },
+    input: {
+        width: 50,
     },
 });
