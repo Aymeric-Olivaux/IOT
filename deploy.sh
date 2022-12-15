@@ -7,7 +7,7 @@ PORT="2222"
 FRONT_DEST="/home/ubuntu/frontend"
 BACK_DEST="/home/ubuntu/backend"
 ROOT_DEST="/home/ubuntu"
-FILES_BACK=' backend/app backend/Dockerfile backend/requirements.txt'
+FILES_BACK=' backend/app backend/Dockerfile backend/requirements.txt backend/app/.env'
 FILES_FRONT='frontend/assets frontend/screens frontend/Dockerfile frontend/App.js frontend/package*.json frontend/yarn.lock frontend/app.json frontend/babel.config.js'
 ROOT_FILES="docker-compose.yml database/"
 
