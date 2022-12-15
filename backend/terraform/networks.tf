@@ -32,7 +32,7 @@ resource "openstack_networking_subnet_v2" "internal-network-subnet" {
   cidr            = local.internal_network_subnet_cidr
   ip_version      = 4
   enable_dhcp     = "true"
-  dns_nameservers = ["1.1.1.1", "1.0.0.1"]
+  dns_nameservers = ["192.168.0.1"]
 }
 
 
