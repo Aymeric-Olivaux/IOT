@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from . import models, schemas
-from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month, fetch_threshold, update_threshold, fetch_health
+from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month, fetch_threshold, update_threshold, fetch_health, send_report
 from datetime import datetime
 import logging
 
@@ -178,3 +178,8 @@ def get_health(device_id: int, db: Session = Depends(get_db)):
     if (len(health) == 0):
         raise HTTPException(status_code=400, detail="Device seems to be offline")
     return {"status": "ok"}
+
+@app.post("/report/{device_id}")
+def post_report(device_id: int, report: schemas.ReportCreate, db: Session = Depends(get_db)):
+    res = send_report(db, device_id, report)
+    return res

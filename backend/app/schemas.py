@@ -58,3 +58,9 @@ class Threshold(ThresholdBase):
 
     class Config:
         orm_mode = True
+
+class ReportBase(BaseModel):
+    email: str
+
+class ReportCreate(ReportBase):
+    pass
