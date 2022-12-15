@@ -3,6 +3,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
 import { Button, Text, Image, Input } from "react-native-elements";
+import * as Linking from "expo-linking";
 
 const { width } = Dimensions.get("window");
 
@@ -232,6 +233,19 @@ const HomeScreen = ({ navigation }) => {
                     </View>
                 </View>
             </View>
+            <View>
+                <Button
+                    style={styles.button_gatus}
+                    type="outline"
+                    title="Gatus"
+                    onPress={() =>
+                        Linking.openURL("https://gatus.alexisboissiere.fr/")
+                    }
+                    containerStyle={styles.button}
+                    titleStyle={{ color: "#93C157" }}
+                    buttonStyle={{ borderColor: "#93C157" }}
+                />
+            </View>
             <View style={styles.health}>
                 <Input
                     style={styles.input}
@@ -288,6 +302,10 @@ const styles = StyleSheet.create({
     },
     button_sendreport: {
         width: 150,
+    },
+    button_gatus: {
+        width: 200,
+        alignSelf: "center",
     },
     input: {
         width: 50,
