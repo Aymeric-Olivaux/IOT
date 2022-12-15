@@ -17,7 +17,7 @@ class Info:
     def __init__(self, email, max_value, mean_value):
         self.email = email
         self.max_value = max_value
-        self.mean_value = mean_value
+        self.mean_value = round(mean_value)
 
 # Create a secure SSL context
 context = ssl._create_unverified_context()
