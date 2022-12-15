@@ -5,7 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from . import models, schemas
-from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month, fetch_threshold, update_threshold, fetch_health, send_report
+from .mailing import Info, send_email
+from .crud import get_user, get_user_by_email, create_user, insert_data, fetch_data_minute, fetch_data_hour, fetch_data_day, fetch_data_week, fetch_data_month, fetch_threshold, update_threshold, fetch_health
 from datetime import datetime
 import logging
 
@@ -181,5 +182,19 @@ def get_health(device_id: int, db: Session = Depends(get_db)):
 
 @app.post("/report/{device_id}")
 def post_report(device_id: int, report: schemas.ReportCreate, db: Session = Depends(get_db)):
-    res = send_report(db, device_id, report)
+    res = fetch_data_day(db, device_id)
+    max_decibels = 0
+    max_time = None
+    for d in res:
+        if (d.decibels > max_decibels):
+            max_decibels = d.decibels
+            max_time = d.collected_at.strftime("%H:%M:%S")
+    # sum up the decibels in the last day
+    sum_decibels = 0
+    for d in res:
+        sum_decibels += d.decibels
+    avg_decibels = sum_decibels / len(res)
+
+    info = Info(report.email, (max_decibels, max_time), avg_decibels)
+    send_email(report.email, info)
     return res

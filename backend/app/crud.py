@@ -61,10 +61,3 @@ def update_threshold(db: Session, device_id: int, threshold: schemas.ThresholdCr
 def fetch_health(db: Session, device_id: int):
     last_thirty_seconds = datetime.datetime.now() - datetime.timedelta(seconds=30)
     return db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_thirty_seconds).all()
-
-
-def send_report(db: Session, device_id: int, report: schemas.ReportCreate):
-    last_hour = datetime.datetime.now() - datetime.timedelta(hours=1)
-    last_data = db.query(models.Data).filter(models.Data.device_id == device_id, models.Data.collected_at >= last_hour).first()
-    send_email(report.email,str(last_data.decibels))
-    return last_data
