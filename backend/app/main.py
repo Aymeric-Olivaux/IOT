@@ -185,15 +185,15 @@ def post_report(device_id: int, report: schemas.ReportCreate, db: Session = Depe
     res = fetch_data_day(db, device_id)
     max_decibels = 0
     max_time = None
-    for d in res:
-        if (d.decibels > max_decibels):
-            max_decibels = d.decibels
-            max_time = d.collected_at.strftime("%H:%M:%S")
-    # sum up the decibels in the last day
     sum_decibels = 0
-    for d in res:
-        sum_decibels += d.decibels
-    avg_decibels = sum_decibels / len(res)
+    if len(res) != 0:
+        for d in res:
+            if (d.decibels > max_decibels):
+                max_decibels = d.decibels
+                max_time = d.collected_at.strftime("%H:%M:%S")
+        for d in res:
+            sum_decibels += d.decibels
+        avg_decibels = sum_decibels / len(res)
 
     info = Info(report.email, (max_decibels, max_time), avg_decibels)
     send_email(report.email, info)
