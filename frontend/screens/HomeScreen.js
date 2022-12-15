@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, View } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Picker } from "@react-native-picker/picker";
-import { Button, Text, Image } from "react-native-elements";
+import { Button, Text, Image, Input } from "react-native-elements";
 
 const linedata = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -18,6 +18,24 @@ const HomeScreen = ({ navigation }) => {
     const [selectedDB, setSelectedDB] = useState(0);
     const [chartData, setchartData] = useState(linedata);
     const [time, setTime] = useState("minute");
+    const [email, setEmail] = useState("");
+
+    async function sendReport(mail) {
+        const endpoint = "https://backend.ambizen.tryhard.fr/report/1/";
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: mail,
+            }),
+        });
+        console.log(response);
+        if (response.status != 200) {
+            alert("Error while sending report");
+        }
+    }
 
     async function getTime() {
         const endpoint = "https://backend.ambizen.tryhard.fr/data/1/" + time;
@@ -212,6 +230,21 @@ const HomeScreen = ({ navigation }) => {
                     </View>
                 </View>
             </View>
+            <View style={styles.health}>
+                <Input
+                    placeholder="Email"
+                    autofocus
+                    type="email"
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
+                />
+                <Button
+                    style={styles.button_sendreport}
+                    buttonStyle={{ backgroundColor: "#93C157" }}
+                    title="Send Report"
+                    onPress={() => sendReport(email)}
+                />
+            </View>
         </View>
     );
 };
@@ -249,5 +282,8 @@ const styles = StyleSheet.create({
         margin: 10,
         width: "30%",
         alignSelf: "center",
+    },
+    button_sendreport: {
+        width: 150,
     },
 });
