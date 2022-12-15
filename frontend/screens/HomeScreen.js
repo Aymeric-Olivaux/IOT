@@ -24,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
 
     async function sendReport(mail) {
-        const endpoint = "https://backend.ambizen.tryhard.fr/report/1/";
+        const endpoint = "https://backend.ambizen.tryhard.fr/report/1";
         const response = await fetch(endpoint, {
             method: "POST",
             headers: {
